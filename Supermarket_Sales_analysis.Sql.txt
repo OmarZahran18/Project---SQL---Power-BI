@@ -1,0 +1,110 @@
+use [Super Market Sales]
+go
+
+select * from supermarket_sales
+
+              -- What are the total sales for each branch?
+select Branch , sum(total) as "Maximum Sales"
+from supermarket_sales
+group by Branch 
+order by [Maximum Sales] desc                          
+
+    
+	        -- Which product line has the highest quantity sold?
+select product_line , sum(Quantity) as "Maximum Sales"
+from supermarket_sales
+group by Product_line
+order by [Maximum Sales] desc       
+
+
+           -- What are the total sales for each customer type?
+select customer_type , sum(total) as "Total Sales"
+from supermarket_sales
+group by Customer_type
+order by [Total Sales] desc         
+
+
+               -- What are the total sales based on gender?
+select gender , sum(total) as "total sales"
+from supermarket_sales
+group by gender 
+order by [total sales] desc                         
+
+
+          -- what time of the day were the highest total sales recorded?
+select time as "Time Of Day" , sum(total) as "Total Sales"
+from supermarket_sales
+group by time
+order by [Total Sales] desc              
+
+
+          -- Which city generated the highest total sales?
+select city , sum(total) as "Total Sales"
+from supermarket_sales 
+group by city 
+order by [Total Sales] desc             
+
+
+                      -- Which payment method was used the most?
+
+select payment , count(*) as "Number"
+from supermarket_sales
+group by Payment  
+order by Number desc
+
+
+        -- Which product line received the highest average rating?
+select Product_line , avg(rating) as "Average Rating" 
+from supermarket_sales
+group by Product_line 
+order by [Average Rating] desc
+
+                   -- Which branch received the highest average rating?
+
+select Branch , avg(rating) as "Average Rating" 
+from supermarket_sales
+group by Branch
+order by [Average Rating] desc             
+
+                 -- Which branches sell the most expensive products on average?
+select branch , avg(unit_price) as "Average Unit Price"
+from supermarket_sales
+group by Branch
+order by [Average Unit Price] desc
+
+                 -- Which city has the highest total taxes collected?
+select city , sum(tax_5) as "Total Taxes"
+from supermarket_sales
+group by City
+order by [Total Taxes] desc
+
+                -- What is the distribution of payment methods by customer type?
+select customer_type , payment , count(*) as "Payment Count"
+from supermarket_sales
+group by Customer_type , Payment
+order by Customer_type , [Payment Count] desc
+
+                -- What are the peak hours for purchases?
+SELECT 
+    CASE 
+        WHEN CAST(time AS TIME) BETWEEN '08:00:00' AND '12:00:00' THEN 'Morning'
+        WHEN CAST(time AS TIME) BETWEEN '12:00:01' AND '18:00:00' THEN 'Afternoon'
+        WHEN CAST(time AS TIME) BETWEEN '18:00:01' AND '22:00:00' THEN 'Evening'
+        ELSE 'Night'
+    END AS "Time Period",
+    SUM(total) AS "Total Sales"
+	from supermarket_sales
+	group by 
+	CASE 
+	    WHEN CAST(time AS TIME) BETWEEN '08:00:00' AND '12:00:00' THEN 'Morning'
+	    WHEN CAST(time AS TIME) BETWEEN '12:00:01' AND '18:00:00' THEN 'Afternoon'
+	    WHEN CAST(time AS TIME) BETWEEN '18:00:01' AND '22:00:00' THEN 'Evening'
+	    ELSE 'Night'
+		end
+		order by [Total Sales] desc
+
+
+
+
+
+
